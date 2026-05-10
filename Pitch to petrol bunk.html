@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helmet Sanitization Proposal - Siripuram Pilot</title>
+    <style>
+        /* Modern CSS Reset & Variables */
+        :root {
+            --primary: #0f172a; /* Deep Navy */
+            --accent: #2563eb; /* Vibrant Blue */
+            --accent-hover: #1d4ed8;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .image-placeholder {
+            background-color: #e2e8f0;
+            border: 2px dashed #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-white);
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            background-color: var(--bg-white);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Full Width Banner Image */
+        .hero-banner {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            display: block;
+        }
+
+        .hero-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Split Sections (Problem / Solution) */
+        .split-section {
+            padding: 80px 0;
+            background-color: var(--bg-light);
+        }
+
+        .split-section:nth-child(even) {
+            background-color: var(--bg-white);
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .split-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .split-content p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .split-image .image-placeholder {
+            height: 350px;
+        }
+
+        /* What We Want (Cards) */
+        .requirements {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+            text-align: center;
+        }
+
+        .requirements h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+
+        .card .image-placeholder {
+            height: 180px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        /* Assurances List */
+        .assurances {
+            padding: 80px 0;
+            background-color: var(--primary);
+            color: var(--bg-white);
+        }
+
+        .assurances h2 {
+            color: var(--bg-white);
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .assurances-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .assurances-list ul {
+            list-style: none;
+        }
+
+        .assurances-list li {
+            font-size: 20px;
+            margin-bottom: 25px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .assurances-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .assurances-list li::before {
+            content: '✓';
+            color: var(--success);
+            position: absolute;
+            left: 0;
+            font-size: 24px;
+            font-weight: bold;
+            top: -2px;
+        }
+
+        .assurances-list strong {
+            color: var(--bg-white);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .assurances-list span {
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--bg-white);
+            text-align: center;
+            padding: 30px 0;
+            font-size: 14px;
+            border-top: 1px solid #334155;
+        }
+
+        /* Market Potential Section */
+        .market-potential {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+            text-align: center;
+        }
+
+        .market-potential h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+        }
+
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .city-card {
+            background: var(--bg-light);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent);
+            text-align: left;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .city-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .city-icon {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 20px;
+        }
+
+        .city-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Screen Size */
+        @media (max-width: 768px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .mobile-reverse {
+                display: flex;
+                flex-direction: column-reverse;
+            }
+            .hero h1 { font-size: 32px; }
+            .split-content h2, .requirements h2, .assurances h2 { font-size: 28px; }
+            .hero-banner { height: 250px; }
+        }
+
+        /* A4 Print Responsiveness - Optimized for Full Page Flow */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 15mm;
+            }
+            
+            body {
+                /* Forces browsers to print background colors and images */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-color: var(--bg-white);
+                font-size: 11pt; /* Slightly smaller base font for better print fit */
+            }
+
+            /* Hide navigation bar on print */
+            nav {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                padding: 0;
+            }
+
+            /* Reduce padding and allow content to break across pages naturally */
+            .hero { padding: 20px 0; }
+            .split-section, .requirements, .assurances, .market-potential { 
+                padding: 25px 0; 
+                /* Removed page-break-inside: avoid; to prevent massive white gaps */
+            }
+
+            .hero h1 { font-size: 28pt; margin-bottom: 10px; }
+            .hero p { font-size: 12pt; }
+
+            /* Compress large banner slightly for A4 dimensions */
+            .hero-banner {
+                height: 180px;
+                margin-bottom: 15px;
+            }
+
+            /* Prevent headings from being orphaned at the bottom of pages */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            /* Keep side-by-side grids intact on paper */
+            .split-grid {
+                display: flex !important;
+                flex-direction: row !important;
+                gap: 20px;
+                align-items: center;
+                page-break-inside: avoid; /* Keeps the specific image + text chunk together */
+            }
+
+            .split-content, .split-image {
+                flex: 1;
+            }
+
+            .split-image img {
+                height: 200px !important;
+                object-fit: cover;
+            }
+
+            /* Keep 3-column cards intact on paper */
+            .card-grid, .city-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 15px;
+            }
+
+            /* Prevent individual cards from splitting down the middle */
+            .card, .city-card {
+                padding: 15px;
+                page-break-inside: avoid;
+                border: 1px solid #e2e8f0;
+                box-shadow: none;
+            }
+
+            .card img {
+                height: 100px !important;
+                margin-bottom: 10px;
+            }
+
+            .assurances-list {
+                padding: 15px;
+            }
+
+            /* Keep individual bullet points whole */
+            .assurances-list li {
+                page-break-inside: avoid; 
+                margin-bottom: 15px;
+            }
+            
+            footer {
+                padding: 15px 0;
+                border-top: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Elevate Rider Hygiene in Our Vishakhapatnam</h1>
+            <p>A corporate-backed initiative to introduce automated, premium helmet sanitization to Visakhapatnam's most prominent fuel station.</p>
+        </div>
+    </header>
+
+    <div class="hero-banner">
+        <img src="Gemini_Generated_Image_784qyv784qyv784q.png?auto=format&fit=crop&w=1920&q=80" alt="Aerial View of Visakhapatnam Coastal City">
+    </div>
+
+    <section class="split-section">
+        <div class="container split-grid">
+            <div class="split-image">
+                <img src="https://ghc.health/cdn/shop/articles/Ways_to_prevent_hair_loss_from_helmets_1296x.jpg?auto=format&fit=crop&w=800&q=80" alt="Biker in Traffic" style="width: 100%; height: 350px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            </div>
+            <div class="split-content">
+                <h2>The Problem</h2>
+                <p>Visakhapatnam's coastal humidity forces two-wheeler riders to constantly deal with sweat-soaked helmets. This leads to severe bacteria buildup, unpleasant odors, and hair damage.</p>
+                <p>Despite being mandatory safety gear, helmets are rarely cleaned because there is no fast, on-the-go solution available in the city. Riders simply endure the discomfort daily.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="split-section">
+        <div class="container split-grid mobile-reverse">
+            <div class="split-content">
+                <h2>The Solution</h2>
+                <p>Our automated helmet sanitizing station transforms a sweaty nuisance into a fresh, hygienic experience in just a few minutes.</p>
+                <p>Using advanced rapid-sanitization mechanisms, the machine neutralizes deep-seated odors and eliminates 99% of bacteria. Placing this unit at the Siripuram bunk provides an instant premium amenity that drivers will actively seek out.</p>
+            </div>
+            <div class="split-image">
+                <img src="https://cleanryd.com/wp-content/uploads/2025/08/CLEAN-RYD-SQUARE-BANNER-3.png?auto=format&fit=crop&w=800&q=80" alt="Clean Premium Helmet" style="width: 100%; height: 350px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            </div>
+        </div>
+    </section>
+
+    <section class="market-potential">
+        <div class="container">
+            <h2>Proven Success in Tier-1 Cities</h2>
+            <p class="section-subtitle">Automated helmet sanitization is no longer an experiment; it is a rapidly growing micro-utility already validated in major metropolitan hubs across South India.</p>
+            
+            <div class="city-grid">
+                <div class="city-card">
+                    <div class="city-icon">📍 Bengaluru</div>
+                    <h3>High Commuter Adoption</h3>
+                    <p style="color: var(--text-muted);">Widely adopted in major tech parks and mall basements. IT professionals appreciate the quick 3-minute turnaround during their office hours or shopping time.</p>
+                </div>
+
+                <div class="city-card">
+                    <div class="city-icon">📍 Hyderabad</div>
+                    <h3>Premium Mall Integration</h3>
+                    <p style="color: var(--text-muted);">Found in high-end retail spaces and multiplex parking lots. Mall managements actively use it as a premium value-add for their two-wheeler driving visitors.</p>
+                </div>
+
+                <div class="city-card">
+                    <div class="city-icon">📍 Chennai</div>
+                    <h3>Combating Coastal Humidity</h3>
+                    <p style="color: var(--text-muted);">Sharing Vizag's exact climate challenges, Chennai's extreme humidity makes helmet hygiene a necessity. Machines see heavy, consistent usage at busy transit hubs and fuel stations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements">
+        <div class="container">
+            <h2>What We Want From You</h2>
+            <div class="card-grid">
+                
+                <div class="card">
+                    <img src="117391814_662166217841721_5801537737482238270_n.jpg?auto=format&fit=crop&w=600&q=80" alt="Space Blueprint" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 25px;">
+                    <h3>Space</h3>
+                    <p style="color: var(--text-muted);">A minimal footprint of just 2x2 sq ft on the premises. The placement will be highly strategic to ensure absolute zero disruption to your fuel lanes and existing vehicle traffic.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://t4.ftcdn.net/jpg/06/00/69/89/360_F_600698903_8c7sieFN9uwdXjE3pA9xE0Nc7Ip8NRnG.jpg?auto=format&fit=crop&w=600&q=80" alt="Power Outlet" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 25px;">
+                    <h3>Power</h3>
+                    <p style="color: var(--text-muted);">Access to a standard 220V electrical socket. Our machines are highly energy-efficient and only draw significant power during active sanitization cycles.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://legal.thomsonreuters.com/blog/wp-content/uploads/sites/19/2018/04/handshake2-800x450.jpg?auto=format&fit=crop&w=600&q=80" alt="Business Agreement" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 25px;">
+                    <h3>MOU / LOI</h3>
+                    <p style="color: var(--text-muted);">A simple Memorandum of Understanding or Letter of Intent to formalize our pilot phase, ensuring clear terms and mutual protection before installation begins.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="assurances">
+        <div class="container">
+            <h2>What We Assure</h2>
+            <div class="assurances-list">
+                <ul>
+                    <li>
+                        <strong>Discipline</strong>
+                        <span>Driven by IT sector protocols (Infosys), our operational schedules, routine check-ups, and fluid-refilling are systematically tracked to ensure 100% uptime.</span>
+                    </li>
+                    <li>
+                        <strong>Professionalism</strong>
+                        <span>Backed by a BBA graduate's management expertise. We handle all ground-level work—your bunk staff will never have to fix, clean, or manage the machine.</span>
+                    </li>
+                    <li>
+                        <strong>Accountability</strong>
+                        <span>Unlike unorganized vendors, we guarantee rapid, localized maintenance. We take full responsibility for the machine's aesthetics, function, and user experience.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Helmet Sanitization Project. Proposal prepared confidentially for Siripuram Petrol Bunk Management.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
